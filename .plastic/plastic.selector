@@ -1,0 +1,4 @@
+repository "Chess@Grisha_Crysta@cloud"
+  path "/"
+    br "/main"
+    co "/main"
