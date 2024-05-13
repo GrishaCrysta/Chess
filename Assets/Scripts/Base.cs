@@ -241,6 +241,14 @@ abstract class Figure
 
         return kingDefenders.ToArray();
     }
+    public static void setKingDef(ChessVector vector, Moves saveKingMoves, bool isDef = true)
+    {
+        chessBoard[vector.x - 1, vector.y - 1].mover.isKingDefender = isDef;
+        if(isDef)
+            saveKingMoves.direction = saveKingMoves.direction.Negate();
+        chessBoard[vector.x - 1, vector.y - 1].mover.saveKingMoves = saveKingMoves;
+        Debug.Log($"{GetFigure(vector).figure.name} {GetFigure(vector).mover.isKingDefender} {isDef}");
+    }
 
 
 

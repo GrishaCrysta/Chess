@@ -223,6 +223,10 @@ class Mover
                     canBeat.Remove(i);
             
         }
+        else
+        {
+            Debug.Log($"{Figure.GetFigure(coords).figure.name} is not a king defender");
+        }
         return canBeat.ToArray();
     }
     public bool canBeat(ChessVector vector, bool isForDefended = true)
@@ -297,7 +301,8 @@ class Mover
         Mover move;
         List<ChessVector> figures = new();
         col.AddRange((int)color == 0 ? Figure.black : Figure.white);
-        foreach(ChessVector i in col)
+        ((int)color == 0 ? Figure.white : Figure.black).ForEach(i => Figure.setKingDef(i, null, false));
+        foreach (ChessVector i in col)
         {
             move = Figure.GetFigure(i).mover.Copy();
             move.moves.ForEach(i => i.throught = i.throught + ((i.throught == -1) ? 0 : 1));
@@ -307,20 +312,16 @@ class Mover
                 {
                     List<ChessVector> defs = new();
                     defs.AddRange(j.ExtractBeats(i));
-                    defs.Remove(Figure.kingCoords[(int)color]);
-
-                    foreach (ChessVector def in defs)
+                    if (defs.Contains(Figure.kingCoords[(int)color]))
                     {
-                        Figure.GetFigure(def).mover.isKingDefender = true;
-                        Figure.GetFigure(def).mover.saveKingMoves = j;
+                        defs.Remove(Figure.kingCoords[(int)color]);
+                        foreach (ChessVector def in defs)
+                        {
+                            Figure.setKingDef(def, j);
+                        }
                     }
                     defs.Clear();
                 }
-            }
-            else
-            {
-                Figure.GetFigure(i).mover.isKingDefender = false;
-                Figure.GetFigure(i).mover.saveKingMoves = null;
             }
         }
 
