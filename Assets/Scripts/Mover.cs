@@ -340,19 +340,19 @@ class Mover
 abstract class Moves
 {
     public ChessVector direction;
-    public int x
+    public float x
     {
-        get { return direction.x; }
-        set { direction.x = value; }
+        get { return direction.X; }
+        set { direction.X = value; }
     }
-    public int y
+    public float y
     {
-        get { return direction.y; }
-        set { direction.y = value; }
+        get { return direction.Y; }
+        set { direction.Y = value; }
     }
     public MoveType type;
     public int throught;
-    public Moves(int x, int y, MoveType type, int throught)
+    public Moves(float x, float y, MoveType type, int throught)
     {
         direction = new ChessVector(x, y);
         this.type = type;
@@ -372,8 +372,11 @@ abstract class Moves
         }
         if (Regex.IsMatch(move, "t{1}[0-9]*"))
         {
-            if (Regex.IsMatch(move, "[0-9]+"))
-                throught = int.Parse(Regex.Match(move, "[0-9]+").Value);
+            if (Regex.IsMatch(move, "t{1}[0-9]+"))
+            {
+                string value = Regex.Match(move, "t{1}[0-9]+").Value;
+                throught = int.Parse(Regex.Match(value, "[0-9]+").Value);
+            }
             else
                 throught = -1;
         }
@@ -429,10 +432,10 @@ abstract class Moves
 }
 class ToCell : Moves
 {
-    public ToCell(int x, int y, MoveType type, int Through) : base(x, y, type, Through) {}
+    public ToCell(float x, float y, MoveType type, int Through) : base(x, y, type, Through) {}
     public override ChessVector[] Extract(ChessVector vector)
     {
-        ChessVector cell = vector + new int[] { x, y };
+        ChessVector cell = vector + new float[] { x, y };
         if (type == MoveType.bm)
             return rayTo(vector + direction.Normalize(), cell, throught);
         else if (type == MoveType.m && !Mover.Contains(cell))
@@ -443,7 +446,7 @@ class ToCell : Moves
     }
     public ChessVector[] rayTo(ChessVector from, ChessVector to, int throught)
     {
-        for (; from != to && from.isValid() && !Mover.Contains(from) && throught != 0; from += direction.Normalize())
+        for (; from != to && from.isValid() && (!Mover.Contains(from) || throught != 0); from += direction.Normalize())
             if(Mover.Contains(from))
                 throught--;
         if (from == to)
@@ -454,21 +457,21 @@ class ToCell : Moves
 }
 class ToRay : Moves
 {
-    public ToRay(int x, int y, MoveType type, int Through) : base(x, y, type, Through) { }
+    public ToRay(float x, float y, MoveType type, int Through) : base(x, y, type, Through) { }
     public override ChessVector[] Extract(ChessVector vector)
     {
         int throught = this.throught;
         List<ChessVector> vectors = new List<ChessVector>();
-        ChessVector start = vector + new int[] {x, y};
+        ChessVector start = vector + new float[] {x, y};
 
         if (type == MoveType.b)
         {
-            for (; start.isValid() && !Mover.Contains(start) ; start += new int[] { this.x, this.y }) ;
+            for (; start.isValid() && !Mover.Contains(start) ; start += new float[] { this.x, this.y }) ;
             if(start.isValid())
                 vectors.Add(start);
             return vectors.ToArray();
         }
-        for (; start.isValid() && (!Mover.Contains(start) || throught != 0); start += new int[] { x, y })
+        for (; start.isValid() && (!Mover.Contains(start) || throught != 0); start += new float[] { x, y })
         {
             if(Mover.Contains(start))
                 throught--;

@@ -23,29 +23,39 @@ enum color
 }
 class ChessVector
 {
-    public int x;
-    public int y;
-    public ChessVector(int[] xy)
+    public float X;
+    public float Y;
+    public int x
     {
-        this.x = xy[0];
-        this.y = xy[1];
+        get { return Convert.ToInt32(Math.Round(X)); }
+        set { X = value; }
     }
-    public ChessVector(int x, int y)
+    public int y
     {
-        this.x = x;
-        this.y = y;
+        get { return Convert.ToInt32(Math.Round(Y)); }
+        set { Y = value; }
+    }
+    public ChessVector(float[] xy)
+    {
+        this.X = xy[0];
+        this.Y = xy[1];
+    }
+    public ChessVector(float x, float y)
+    {
+        this.X = x;
+        this.Y = y;
     }
     public bool isValid()
     {
         return this.x >= 1 && this.x <= 8 &&
                 this.y >= 1 && this.y <= 8;
     }
-    public int[] Normalize()
+    public float[] Normalize()
     {
-        int biggest = Math.Abs(this.x) > Math.Abs(this.y) ? Math.Abs(this.x) : Math.Abs(this.y);
-        int x = this.x / biggest;
-        int y = this.y / biggest;
-        return new int[] { x, y };
+        float biggest = Math.Abs(this.X) > Math.Abs(this.Y) ? Math.Abs(this.X) : Math.Abs(this.Y);
+        float x = this.X / biggest;
+        float y = this.Y / biggest;
+        return new float[] { x, y };
     }
     public bool isBetween(ChessVector v1, ChessVector v2)
     {
@@ -69,9 +79,9 @@ class ChessVector
         ChessVector vector = new ChessVector(-x, -y);
         return vector;
     }
-    public static ChessVector operator +(ChessVector v1, int[] v2)
+    public static ChessVector operator +(ChessVector v1, float[] v2)
     {
-        return new ChessVector(v1.x + v2[0], v1.y + v2[1]);
+        return new ChessVector(v1.X + v2[0], v1.Y + v2[1]);
     }
     public static ChessVector operator +(ChessVector v1, ChessVector v2)
     {
@@ -117,7 +127,7 @@ abstract class Figure
                                            Resources.Load<Material>("Materials/MovePad"), Resources.Load<Material>("Materials/Invisible") };
     public static GameObject[] models = new GameObject[6];
     public static GameObject text = Resources.Load<GameObject>("Models/Text on figure");
-    public static ChessVector[] castRay(ChessVector start, int[] direction)
+    /*public static ChessVector[] castRay(ChessVector start, int[] direction)
     {
         List<ChessVector> ray = new List<ChessVector>();
         for (; (start + direction).isValid();)
@@ -213,7 +223,7 @@ abstract class Figure
     {
         return mover.canBeat(vector, isForDefended);
     }
-    public static ChessVector[] kingDefenders(color color)
+    /*public static ChessVector[] kingDefenders(color color)
     {
         List<ChessVector> kingDefenders = new List<ChessVector>(),
                           kingDefendedAtVectors = new List<ChessVector>(),
@@ -240,7 +250,7 @@ abstract class Figure
                 kingDefenders.RemoveAt(kingDefendedAtVectors.IndexOf(i));
 
         return kingDefenders.ToArray();
-    }
+    }*/
     public static void setKingDef(ChessVector vector, Moves saveKingMoves, bool isDef = true)
     {
         chessBoard[vector.x - 1, vector.y - 1].mover.isKingDefender = isDef;
@@ -349,7 +359,7 @@ abstract class Figure
             else 
                 return false;
     }
-    public static Figure[] potentialBeaters(ChessVector vector, color color)
+    /*public static Figure[] potentialBeaters(ChessVector vector, color color)
     {
         List<Figure> beaters = new List<Figure>();
         List<Figure> clone = new List<Figure>();
@@ -402,7 +412,7 @@ abstract class Figure
         }
         return coords.ToArray();
 
-    }
+    }*/
     public static bool isThatEnemy(ChessVector vector, color color)
     {
         Figure figure = GetFigure(vector);
@@ -524,7 +534,7 @@ abstract class Figure
         makeChessboard();
         clearChessboard();
         
-        /*SetFigure(new Elephant(new ChessVector(1, 1), color.white));
+        SetFigure(new Elephant(new ChessVector(1, 1), color.white));
         SetFigure(new Elephant(new ChessVector(8, 1), color.white));
         SetFigure(new Horse(new ChessVector(2, 1), color.white));
         SetFigure(new Horse(new ChessVector(7, 1), color.white));
@@ -544,7 +554,7 @@ abstract class Figure
         SetFigure(new Queen(new ChessVector(4, 8), color.black));
         SetFigure(new King(new ChessVector(5, 8), color.black));
         for (int i = 1; i <= 8; i++)
-            SetFigure(new Pawn(new ChessVector(i, 7), color.black));*/
+            SetFigure(new Pawn(new ChessVector(i, 7), color.black));
     }
     public static void finishGame(string text)
     {
@@ -730,6 +740,9 @@ public class Base : MonoBehaviour
         Figure.models[5].transform.GetChild(0).gameObject.AddComponent<MeshCollider>();
         foreach (GameObject model in Figure.models)
             model.SetActive(false);
+        /*Logger logger = new Logger(Application.persistentDataPath + @"\\myLogs\\");
+        
+        Debug.Log(logger.path);*/
         Console.WriteLine("lorem");
         Figure.startGame();
 
