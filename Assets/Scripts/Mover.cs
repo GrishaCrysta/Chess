@@ -317,7 +317,8 @@ class Mover
                         defs.Remove(Figure.kingCoords[(int)color]);
                         foreach (ChessVector def in defs)
                         {
-                            Figure.setKingDef(def, j);
+                            if(GetColor(def) == color)
+                                Figure.setKingDef(def, j);
                         }
                     }
                     defs.Clear();
