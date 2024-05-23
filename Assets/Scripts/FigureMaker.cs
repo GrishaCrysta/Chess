@@ -8,6 +8,12 @@ public class FigureMaker : MonoBehaviour
 {
     private static List<GameObject> intances = new List<GameObject>();
     private static color COLOR;
+    public static int intColor
+    {
+        get { return (int)COLOR; }
+        set { COLOR = (color) value; }
+    }
+    public static int selected;
     public static void SetColor(string value)
     {
         if (value == "white")
@@ -86,31 +92,10 @@ public class FigureMaker : MonoBehaviour
         ChessVector coords = ChessVector.GetCoordinatesFromVector(transform.position);
         if (coords.isValid())
         {
-            switch (TYPE)
-            {
-                case 0:
-                    Figure.SetFigure(new Pawn(coords, COLOR));
-                    break;
-                case 1:
-                    Figure.SetFigure(new Elephant(coords, COLOR));
-                    break;
-                case 2:
-                    Figure.SetFigure(new Horse(coords, COLOR));
-                    break;
-                case 3:
-                    Figure.SetFigure(new Officer(coords, COLOR));
-                    break;
-                case 4:
-                    Figure.SetFigure(new Queen(coords, COLOR));
-                    break;
-                case 5:
-                    Figure.SetFigure(new King(coords, COLOR));
-                    break;
-                case 6:
-                    Figure.Destroy(coords);
-                    break;
-            }
+            Figure.SetFigure(TYPE, coords, COLOR);
         }
+        else
+            selected = TYPE;
         Destroy(gameObject);
     }
 

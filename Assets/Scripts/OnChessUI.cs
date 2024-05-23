@@ -5,9 +5,21 @@ using UnityEngine;
 
 public class OnChessUI : MonoBehaviour
 {
-    public EventHandler func;
+    public EventHandler mouseDown;
+    public EventHandler mouseEnter;
     public void OnMouseDown()
     {
-        func(1, EventArgs.Empty);
+        if(mouseDown != null)
+            mouseDown(1, EventArgs.Empty);
     }
+    public void OnMouseEnter()
+    {
+        if(mouseEnter != null)
+            mouseEnter(1, EventArgs.Empty);
+    }
+    
+}
+static class ActiveUI
+{
+    public static bool builder = false;
 }

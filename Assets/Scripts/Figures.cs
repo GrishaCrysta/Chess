@@ -337,6 +337,10 @@ class King : Figure
         kingCoords[(int)color] = vector; 
         mover = new Mover($"k;d;c1,1bm;c1,-1bm;c-1,1bm;c-1,-1bm;c1,0bm;c0,1bm;c-1,0bm;c0,-1bm;", coords);
     }
+    ~King()
+    {
+        kingCoords[(int)color] = new ChessVector(0, 0);
+    }
     public override void move(ChessVector vector)
     {
         base.move(vector);

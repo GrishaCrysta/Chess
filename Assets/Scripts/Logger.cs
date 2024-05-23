@@ -10,7 +10,7 @@ public class Logger
     public Logger(string path)
     {
         
-        this.path = path + DateTime.Now + ".txt";
+        this.path = Path.Combine(path, (DateTime.Now + ".txt"));
         File.Create(path).Close();
         FileStream log = File.OpenWrite(path);
         StreamWriter write = new StreamWriter(log);

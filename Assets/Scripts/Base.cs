@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Runtime;
 using TMPro;
 using UnityEngine.UI;
+using System.IO;
 
 
 enum FigureType
@@ -187,7 +188,28 @@ abstract class Figure
         this.color = color;
         figure.transform.position = ChessVector.GetVectorFromCoordinates(coords);
         figure.GetComponent<Renderer>().material = materials[(int)color];
-        figure.AddComponent<ForFigures>();
+        //figure.AddComponent<ForFigures>();
+        figure.AddComponent<OnChessUI>();
+        figure.GetComponent<OnChessUI>().mouseEnter = (e, s) =>
+        {
+            if(ActiveUI.builder && Input.GetMouseButton(0))
+            {
+                Debug.Log(figure.name);
+                SetFigure(FigureMaker.selected, ChessVector.GetCoordinatesFromVector(figure.transform.position), (color)FigureMaker.intColor);
+            }
+        };
+        figure.GetComponent<OnChessUI>().mouseDown = (e, s) =>
+        {
+            if (ActiveUI.builder)
+            {
+                SetFigure(FigureMaker.selected, ChessVector.GetCoordinatesFromVector(figure.transform.position), (color)FigureMaker.intColor);
+            }
+            else
+            {
+                ChessVector vector = ChessVector.GetCoordinatesFromVector(figure.transform.position);
+                select(vector);
+            }
+        };
         mover = new Mover("", coords);
         figure.name = $"{color}{this.GetType()}{coords.x}{coords.y}";
         GameObject text = GameObject.Instantiate(Figure.text);
@@ -513,12 +535,40 @@ abstract class Figure
     {
         if (!figure.coords.isValid())
             return;
+        Destroy(figure.coords);
         chessBoard[figure.coords.x - 1, figure.coords.y - 1] = figure;
         if (figure.color == color.white)
             white.Add(figure.coords);
         else
             black.Add(figure.coords);
         Mover.SetColor(figure.coords, figure.color);
+    }
+    public static void SetFigure(int configIndex, ChessVector vector, color color)
+    {
+        switch (configIndex)
+        {
+            case 0:
+                Figure.SetFigure(new Pawn(vector, color));
+                break;
+            case 1:
+                Figure.SetFigure(new Elephant(vector, color));
+                break;
+            case 2:
+                Figure.SetFigure(new Horse(vector, color));
+                break;
+            case 3:
+                Figure.SetFigure(new Officer(vector, color));
+                break;
+            case 4:
+                Figure.SetFigure(new Queen(vector, color));
+                break;
+            case 5:
+                Figure.SetFigure(new King(vector, color));
+                break;
+            case 6:
+                Figure.Destroy(vector);
+                break;
+        }
     }
     public static void DelFigure(ChessVector coords)
     {
@@ -607,10 +657,22 @@ abstract class Figure
                 cell.GetComponent<Renderer>().material = materials[(i % 2 + j % 2) % 2];
                 cell.name = $"{j}cell";
                 cell.AddComponent<OnChessUI>();
-                cell.GetComponent<OnChessUI>().func = (s, e) =>
+                cell.GetComponent<OnChessUI>().mouseDown = (s, e) =>
                 {
+                    if (ActiveUI.builder)
+                    {
+                        SetFigure(FigureMaker.selected, ChessVector.GetCoordinatesFromVector(cell.transform.position), (color)FigureMaker.intColor);
+                    }
                     OnSelect(0, EventArgs.Empty);
                     OnSelect = (s, e) => { };
+                };
+                cell.GetComponent<OnChessUI>().mouseEnter = (e, s) =>
+                {
+                    if (ActiveUI.builder && Input.GetMouseButton(0))
+                    {
+                        Debug.Log(cell.transform.position.ToString());
+                        SetFigure(FigureMaker.selected, ChessVector.GetCoordinatesFromVector(cell.transform.position), (color)FigureMaker.intColor);
+                    }
                 };
             }
         }
@@ -668,7 +730,7 @@ abstract class Figure
         changeColor.transform.localScale = new Vector3(1, 0.05f, 1);
         changeColor.GetComponent<Renderer>().material = Resources.Load<Material>("Materials/MeshMaterial2");
         changeColor.AddComponent<OnChessUI>();
-        changeColor.GetComponent<OnChessUI>().func = (sender, e) => { FigureMaker.ChangeColor(); };
+        changeColor.GetComponent<OnChessUI>().mouseDown = (sender, e) => { FigureMaker.ChangeColor(); };
         changeColor.transform.SetParent(parent.transform);
 
         GameObject del = GameObject.CreatePrimitive(PrimitiveType.Cube);
@@ -681,9 +743,10 @@ abstract class Figure
         del.GetComponent<FigureMaker>().TYPE = 6;
         del.transform.SetParent(parent.transform);
 
-        button.GetComponent<OnChessUI>().func = (sender, e) =>
+        button.GetComponent<OnChessUI>().mouseDown = (sender, e) =>
         {
             parent.SetActive(!parent.activeSelf);
+            ActiveUI.builder = parent.activeSelf;
         };
 
         for (int i = 0; i < 5; i++)
@@ -740,7 +803,9 @@ public class Base : MonoBehaviour
         Figure.models[5].transform.GetChild(0).gameObject.AddComponent<MeshCollider>();
         foreach (GameObject model in Figure.models)
             model.SetActive(false);
-        /*Logger logger = new Logger(Application.persistentDataPath + @"\\myLogs\\");
+       /*if (!Directory.Exists(Path.Combine(Application.persistentDataPath + @"\\myLogs\\")))
+            Directory.CreateDirectory(Path.Combine(Application.persistentDataPath + @"\\myLogs\\"));
+        Logger logger = new Logger(Path.Combine(Application.persistentDataPath + @"\\myLogs\\"));
         
         Debug.Log(logger.path);*/
         Console.WriteLine("lorem");
