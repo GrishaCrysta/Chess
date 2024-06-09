@@ -332,7 +332,7 @@ class King : Figure
 {
     public King(ChessVector vector, color color) : base(vector, color, GameObject.Instantiate(models[5]))
     {
-        figure.transform.parent.name = figure.name;
+        //figure.transform.parent.name = figure.name;
 //        Debug.Log($"Created {figure.name}");
         kingCoords[(int)color] = vector; 
         mover = new Mover($"k;d;c1,1bm;c1,-1bm;c-1,1bm;c-1,-1bm;c1,0bm;c0,1bm;c-1,0bm;c0,-1bm;", coords);

@@ -5,6 +5,30 @@ using System;
 
 public class ForFigures : MonoBehaviour
 {
+    public static List<GameObject> instances = new();
+    private void Awake()
+    {
+        instances.Add(gameObject);
+    }
+    private void OnDestroy()
+    {
+        instances.Remove(gameObject);
+    }
+    public static void ChangeSize(float x)
+    {
+        foreach (GameObject instance in instances)
+        {
+            if (instance != null)
+            {
+                instance.transform.localScale *= x;
+                instance.transform.position = new Vector3(instance.transform.position.x, instance.transform.position.y * x, instance.transform.position.z);
+            }
+        }
+        foreach (GameObject model in Figure.models)
+        {
+            model.transform.localScale *= x;
+        }
+    }
     /*
     public bool selected = false;
     private void OnMouseDown()
@@ -25,10 +49,11 @@ public class ForFigures : MonoBehaviour
         }
     }
     */
-    private void OnMouseDown()
+    /*private void OnMouseDown()
     {
         ChessVector vector = ChessVector.GetCoordinatesFromVector(transform.position);
         Figure.select(vector);
  //       Debug.Log($"Moved {name}");
-    }
+    }*/
+
 }

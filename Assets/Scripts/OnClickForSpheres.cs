@@ -9,6 +9,10 @@ public class ForMovePads : MonoBehaviour
     {
         Destroy(gameObject);
     }
+    private void Awake()
+    {
+        name = ChessVector.GetCoordinatesFromVector(transform.position).ToString();
+    }
     /*
     public void Start()
     {
@@ -23,7 +27,9 @@ public class ForMovePads : MonoBehaviour
     */
     private void OnMouseDown()
     {
+        Logger.debug.startFunc("ForMovePads.OnMouseDown");
         if (isMove)
             Figure.GetFigure(Figure.selected).move(ChessVector.GetCoordinatesFromVector(gameObject.transform.position));
+        Logger.debug.endFunc("ForMovePads.OnMouseDown");
     }
 }

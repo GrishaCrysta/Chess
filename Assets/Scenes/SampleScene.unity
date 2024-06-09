@@ -538,6 +538,7 @@ GameObject:
   - component: {fileID: 638091493}
   - component: {fileID: 638091492}
   - component: {fileID: 638091496}
+  - component: {fileID: 638091497}
   m_Layer: 0
   m_Name: Chessboard
   m_TagString: Untagged
@@ -644,6 +645,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   i: 0
+--- !u!114 &638091497
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 638091491}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 791f5bc6223d72247a4fa4182c3bc610, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Size: 0.7
 --- !u!1 &1028836754
 GameObject:
   m_ObjectHideFlags: 0
@@ -656,6 +670,7 @@ GameObject:
   - component: {fileID: 1028836758}
   - component: {fileID: 1028836757}
   - component: {fileID: 1028836756}
+  - component: {fileID: 1028836759}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -749,6 +764,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1028836754}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1028836759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1028836754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd8ca1a753dff834bb541b4b67d9cc28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  url: https://www.patreon.com/didkozhaty
 --- !u!1 &1029840632
 GameObject:
   m_ObjectHideFlags: 0

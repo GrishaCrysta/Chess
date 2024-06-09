@@ -1,0 +1,4 @@
+0ForFigures.ChangeSize (System.Single x) (at Assets/Scripts/OnClick for figures.cs:29)
+Config.set_size (System.Single value) (at Assets/Scripts/Config.cs:17)
+Config.OnValidate () (at Assets/Scripts/Config.cs:28)
+
