@@ -17,13 +17,13 @@ public class FigureMaker : MonoBehaviour
     public static int selected;
     public static void SetColor(string value)
     {
-        Logger.debug.startFunc("FigureMaker.SetColor", $"v = {value}");
+        /*Logger.debug.startFunc("FigureMaker.SetColor", $"v = {value}")*/;
         if (value == "white")
             COLOR = color.white;
         else if (value == "black")
             COLOR = color.black;
         intances.ForEach(i => i.GetComponent<Renderer>().material = Figure.materials[(int)COLOR]);
-        Logger.debug.endFunc("FigureMaker.SetColor");
+        /*Logger.debug.endFunc("FigureMaker.SetColor")*/;
     }
     public int TYPE;
     public string type
@@ -67,44 +67,44 @@ public class FigureMaker : MonoBehaviour
     }
     public static void Active()
     {
-        Logger.debug.startFunc("FigureMaker.Active");
+        /*Logger.debug.startFunc("FigureMaker.Active")*/;
         intances.ForEach(i => i.SetActive(!i.activeSelf));
-        Logger.debug.endFunc("FigureMaker.Active");
+        /*Logger.debug.endFunc("FigureMaker.Active")*/;
     }
     public void Awake()
     {
-        Logger.debug.startFunc("FigureMaker.Awake");
+        /*Logger.debug.startFunc("FigureMaker.Awake")*/;
         intances.Add(gameObject);
-        Logger.debug.endFunc("FigureMaker.Awake");
+        /*Logger.debug.endFunc("FigureMaker.Awake")*/;
     }
     public void OnDestroy()
     {
-        Logger.debug.startFunc("FigureMaker.OnDestroy");
+        /*Logger.debug.startFunc("FigureMaker.OnDestroy")*/;
         intances.Remove(gameObject);
-        Logger.debug.endFunc("FigureMaker.OnDestroy");
+        /*Logger.debug.endFunc("FigureMaker.OnDestroy")*/;
     }
     public void OnMouseDown()
     {
-        Logger.debug.startFunc("FigureMaker.OnMouseDown", $"o = {name}");
+        /*Logger.debug.startFunc("FigureMaker.OnMouseDown", $"o = {name}")*/;
         Logger.ui.log($"FigureMaker.OnMouseDown(o = {name})");
         isDragging = true;
         GameObject figureMaker = Instantiate(gameObject);
         figureMaker.transform.SetParent(gameObject.transform.parent);
         figureMaker.transform.localPosition = gameObject.transform.localPosition;
         selected = TYPE;
-        Logger.debug.endFunc("FigureMaker.OnMouseDown");
+        /*Logger.debug.endFunc("FigureMaker.OnMouseDown")*/;
     }
     public void OnMouseDrag()
     {
-        Logger.debug.startFunc("FigureMaker.OnMouseDrag", $"o = {name}, p = {transform.position}");
+        /*Logger.debug.startFunc("FigureMaker.OnMouseDrag", $"o = {name}, p = {transform.position}")*/;
         float distanceToBoard = (Camera.main.transform.position.y - Camera.main.nearClipPlane) - (GameObject.Find("Chessboard").transform.position.y + (transform.lossyScale.y / 2.0f));
         var worldPoint = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, distanceToBoard));
         gameObject.transform.position = worldPoint;
-        Logger.debug.endFunc("FigureMaker.OnMouseDrag");
+        /*Logger.debug.endFunc("FigureMaker.OnMouseDrag")*/;
     }
     public void OnMouseUp()
     {
-        Logger.debug.startFunc("FigureMaker.OnMouseUp", $"o = {name}, p = {transform.position}");
+        /*Logger.debug.startFunc("FigureMaker.OnMouseUp", $"o = {name}, p = {transform.position}")*/;
         Logger.ui.log($"FigureMaker.OnMouseUp(o = {name}, p = {transform.position})");
         isDragging = false;
         ChessVector coords = ChessVector.GetCoordinatesFromVector(transform.position);
@@ -113,16 +113,16 @@ public class FigureMaker : MonoBehaviour
             Figure.SetFigure(TYPE, coords, COLOR);
         }
         Destroy(gameObject);
-        Logger.debug.endFunc("FigureMaker.OnMouseUp");
+        /*Logger.debug.endFunc("FigureMaker.OnMouseUp")*/;
     }
 
     public static void ChangeColor()
     {
-        Logger.debug.startFunc("FigureMaker.ChangeColor", $"c = {COLOR}");
+        /*Logger.debug.startFunc("FigureMaker.ChangeColor", $"c = {COLOR}")*/;
         if (COLOR == color.white)
             SetColor("black");
         else if (COLOR == color.black)
             SetColor("white");
-        Logger.debug.endFunc("FigureMaker.ChangeColor");
+        /*Logger.debug.endFunc("FigureMaker.ChangeColor")*/;
     }
 }

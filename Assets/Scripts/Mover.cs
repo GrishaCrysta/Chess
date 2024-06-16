@@ -35,15 +35,15 @@ class Mover
                        movesFromStart = new List<Moves>();
     public static bool Contains(ChessVector vector)
     {
-        Logger.debug.startFunc("Contains", $"v = {vector}");
+        /*Logger.debug.startFunc("Contains", $"v = {vector}")*/;
         try
         {
-            return Logger.debug.endFunc("Contains", chessBoard[vector.x - 1, vector.y - 1] != null);
+            return /*Logger.debug.endFunc("Contains",*/ chessBoard[vector.x - 1, vector.y - 1] != null/*)*/;
         }
         catch (Exception)
         {
            // Debug.Log($"{vector.x}, {vector.y}");
-            return Logger.debug.endFunc("Contains", false);
+            return /*Logger.debug.endFunc("Contains",*/ false/*)*/;
         }
     }
     public Mover(string moves, ChessVector coords)
@@ -72,7 +72,7 @@ class Mover
     }
     public ChessVector[] canMove(bool isForDefended = true)
     {
-        Logger.debug.startFunc("Contains", $"ifd = {isForDefended}");
+        /*Logger.debug.startFunc("Contains", $"ifd = {isForDefended}")*/;
         List<ChessVector> canBeat = new List<ChessVector>(),
                           clone = new List<ChessVector>();
         foreach (Moves i in moves)
@@ -142,11 +142,11 @@ class Mover
         }
 
 
-        return Logger.debug.endFunc("canMove", canBeat.ToArray());
+        return /*Logger.debug.endFunc("canMove",*/ canBeat.ToArray()/*)*/;
     }
     public static Moves[] GetBeaters(ChessVector coords, Nullable<color> color)
     {
-        Logger.debug.startFunc("Moves.GetBeaters", $"v = {coords}, c = {color}");
+        /*Logger.debug.startFunc("Moves.GetBeaters", $"v = {coords}, c = {color}")*/;
         if (color == null)
             return new Moves[] {};
         List<Moves> moves = new List<Moves>();
@@ -155,11 +155,11 @@ class Mover
         foreach (ChessVector i in col)
             if (Figure.GetFigure(i).canBeat(coords))
                 moves.AddRange(Figure.GetFigure(i).mover.GetBeaters(coords));
-        return Logger.debug.endFunc("Moves.GetBeaters", moves.ToArray());
+        return /*Logger.debug.endFunc("Moves.GetBeaters",*/ moves.ToArray()/*)*/;
     }
     public Moves[] GetBeaters(ChessVector vector)
     {
-        Logger.debug.startFunc("GetBeaters", $"v = {vector}");
+        /*Logger.debug.startFunc("GetBeaters", $"v = {vector}")*/;
         List<Moves> beaters = new();
         List<ChessVector> beats = new List<ChessVector>();
         foreach (Moves i in moves)
@@ -169,11 +169,11 @@ class Mover
                 beaters.Add(i);
             beats.Clear();
         }
-        return Logger.debug.endFunc("GetBeaters", beaters.ToArray());
+        return /*Logger.debug.endFunc("GetBeaters",*/ beaters.ToArray()/*)*/;
     }
     public ChessVector[] GetBeaters()
     {
-        Logger.debug.startFunc("GetBeaters");
+        /*Logger.debug.startFunc("GetBeaters")*/;
         List<ChessVector> beaters = new(), clone = new();
         beaters.AddRange(canMove());
         clone.AddRange(beaters);
@@ -185,11 +185,11 @@ class Mover
         foreach (ChessVector i in clone)
             if (!Figure.GetFigure(i).canBeat(coords))
                 beaters.Remove(i);
-        return Logger.debug.endFunc("GetBeaters", beaters.ToArray());
+        return /*Logger.debug.endFunc("GetBeaters",*/ beaters.ToArray()/*)*/;
     }
     public ChessVector[] canBeat(bool isForDefended = true)
     {
-        Logger.debug.startFunc("canBeat", $"ifd = {isForDefended}");
+        /*Logger.debug.startFunc("canBeat", $"ifd = {isForDefended}")*/;
         List<Moves> bm = new List<Moves>();
         List<ChessVector> canBeat = new(), clone = new();
         moves.ForEach(i =>
@@ -233,69 +233,69 @@ class Mover
         {
             //Debug.Log($"{Figure.GetFigure(coords).figure.name} is not a king defender");
         }
-        return Logger.debug.endFunc("canBeat", canBeat.ToArray());
+        return /*Logger.debug.endFunc("canBeat",*/ canBeat.ToArray()/*)*/;
     }
     public bool canBeat(ChessVector vector, bool isForDefended = true)
     {
-        Logger.debug.startFunc("canBeat", $"v = {vector}, ifd = {isForDefended}");
+        /*Logger.debug.startFunc("canBeat", $"v = {vector}, ifd = {isForDefended}")*/;
         List<ChessVector> canBeat = new();
         canBeat.AddRange(this.canBeat(isForDefended));
-        return Logger.debug.endFunc("canBeat", canBeat.Contains(vector));
+        return /*Logger.debug.endFunc("canBeat",*/ canBeat.Contains(vector)/*)*/;
     }
     public static bool canBeBeaten(ChessVector vector, Nullable<color> color)
     {
-        Logger.debug.startFunc("Mover.canBeBeaten", $"v = {vector}, c = {color}");
+        /*Logger.debug.startFunc("Mover.canBeBeaten", $"v = {vector}, c = {color}")*/;
         if (color == null)
-            return Logger.debug.endFunc("Mover.canBeBeaten", true);
+            return /*Logger.debug.endFunc("Mover.canBeBeaten",*/ true/*)*/;
         List<ChessVector> col = new();
         col.AddRange((int)color == 0? Figure.black : Figure.white);
         foreach (ChessVector i in col)
             if (Figure.GetFigure(i).canBeat(vector, false)) 
-                return Logger.debug.endFunc("Mover.canBeBeaten", true);
-        return Logger.debug.endFunc("Mover.canBeBeaten", false);
+                return /*Logger.debug.endFunc("Mover.canBeBeaten",*/ true/*)*/;
+        return /*Logger.debug.endFunc("Mover.canBeBeaten",*/ false/*)*/;
     }
     public void moveTo(ChessVector vector)
     {
         /*chessBoard[vector.x - 1, vector.y - 1] = chessBoard[coords.x - 1, coords.y - 1];
         chessBoard[coords.x - 1, coords.y - 1] = null;*/
-        Logger.debug.startFunc("moveTo", $"v = {vector}");
+        /*Logger.debug.startFunc("moveTo", $"v = {vector}")*/;
         if (!moved)
         {
             moved = true;
         }
         coords = vector;
-        Logger.debug.endFunc("moveTo");
+        /*Logger.debug.endFunc("moveTo")*/;
     }
     public static void ClearDesk()
     {
-        Logger.debug.startFunc("Mover.ClearDesk");
+        /*Logger.debug.startFunc("Mover.ClearDesk")*/;
         for (int i = 0; i < 8; i++)
             for (int j = 0; j < 8; j++)
                 chessBoard[i, j] = null;
-        Logger.debug.endFunc("Mover.ClearDesk");
+        /*Logger.debug.endFunc("Mover.ClearDesk")*/;
     }
     public static void SetColor(ChessVector vector, Nullable<color> color)
     {
-        Logger.debug.startFunc("Mover.SetColor", $"v = {vector}, c = {color}");
+        /*Logger.debug.startFunc("Mover.SetColor", $"v = {vector}, c = {color}")*/;
         chessBoard[vector.x - 1, vector.y - 1] = color;
-        Logger.debug.endFunc("Mover.SetColor");
+        /*Logger.debug.endFunc("Mover.SetColor")*/;
     }
     public static Nullable<color> GetColor(ChessVector vector)
     {
-        Logger.debug.startFunc("Mover.GetColor", $"v = {vector}");
+        /*Logger.debug.startFunc("Mover.GetColor", $"v = {vector}")*/;
         try
         {
-            return Logger.debug.endFunc("Mover.GetColor", chessBoard[vector.x - 1, vector.y - 1]);
+            return /*Logger.debug.endFunc("Mover.GetColor",*/ chessBoard[vector.x - 1, vector.y - 1]/*)*/;
         }
         catch (IndexOutOfRangeException)
         {
-            Logger.debug.endFunc("Mover.GetColor", "null");
+            /*Logger.debug.endFunc("Mover.GetColor",*/ "null"/*)*/;
             return null;
         }
     }
     public static bool isShah()
     {
-        Logger.debug.startFunc("Mover.isShah");
+        /*Logger.debug.startFunc("Mover.isShah")*/;
         List<Moves> temp = new();
         kingBeats.Clear();
         SetKingDefs(Figure.nowMove);
@@ -306,16 +306,16 @@ class Mover
             kingBeats.ForEach(i => i.direction = i.direction.Negate());
             kingBeats.ForEach(i => i.throught = i.throught + ((i.throught == -1) ? 0 : 1));
             temp.Clear();
-            return Logger.debug.endFunc("Mover.isShah", true);
+            return /*Logger.debug.endFunc("Mover.isShah",*/ true/*)*/;
         }
-        return Logger.debug.endFunc("Mover.isShah", false);
+        return /*Logger.debug.endFunc("Mover.isShah",*/ false/*)*/;
     }
     public static void SetKingDefs(Nullable<color> color)
     {
-        Logger.debug.startFunc("Mover.SetKingDefs", $"c = {color}");
+        /*Logger.debug.startFunc("Mover.SetKingDefs", $"c = {color}")*/;
         if (color == null)
         {
-            Logger.debug.endFunc("Mover.SetKingDefs");
+            /*Logger.debug.endFunc("Mover.SetKingDefs")*/;
             return;
         }
         List<ChessVector> col = new();
@@ -346,7 +346,7 @@ class Mover
                 }
             }
         }
-        Logger.debug.endFunc("Mover.SetKingDefs");
+        /*Logger.debug.endFunc("Mover.SetKingDefs")*/;
     }
 
     public override bool Equals(object obj)
@@ -356,8 +356,8 @@ class Mover
     }
     public Mover Copy()
     {
-        Logger.debug.startFunc("Copy");
-        return Logger.debug.endFunc("Copy", new Mover(this));
+        /*Logger.debug.startFunc("Copy")*/;
+        return /*Logger.debug.endFunc("Copy",*/ new Mover(this)/*)*/;
     }
     public override string ToString()
     {
@@ -400,7 +400,7 @@ abstract class Moves
     }
     public static Moves ConstructMove(string move)
     {
-        Logger.debug.startFunc("ConstructMove", $"m = {move}");
+        /*Logger.debug.startFunc("ConstructMove", $"m = {move}")*/;
         int[] xy = new int[2];
         int k = 0;
         string type = Regex.Match(move, "(bm|m|b){1}").Value;
@@ -428,9 +428,9 @@ abstract class Moves
         else
             moveType = MoveType.b;
         if (move[0] == 'c')
-            return Logger.debug.endFunc("ConstructMove", new ToCell(xy[0], xy[1], moveType, throught));
+            return /*Logger.debug.endFunc("ConstructMove",*/ new ToCell(xy[0], xy[1], moveType, throught)/*)*/;
         if (move[0] == 'r')
-            return Logger.debug.endFunc("ConstructMove", new ToRay(xy[0], xy[1], moveType, throught));
+            return /*Logger.debug.endFunc("ConstructMove",*/ new ToRay(xy[0], xy[1], moveType, throught)/*)*/;
         else
             throw new Exception("Incorrect move string");
     }
@@ -476,24 +476,24 @@ class ToCell : Moves
     public ToCell(float x, float y, MoveType type, int Through) : base(x, y, type, Through) {}
     public override ChessVector[] Extract(ChessVector vector)
     {
-        Logger.debug.startFunc("Extract", $"v = {vector}");
+        /*Logger.debug.startFunc("Extract", $"v = {vector}")*/;
         ChessVector cell = vector + new float[] { x, y };
         if (type == MoveType.bm || 
             (type == MoveType.m && !Mover.Contains(cell)) || 
             (type == MoveType.b && Mover.Contains(cell)))
-            return Logger.debug.endFunc("Extract", rayTo(vector + direction.Normalize(), cell, throught));
-        return Logger.debug.endFunc("Extract", new ChessVector[] { });
+            return /*Logger.debug.endFunc("Extract",*/ rayTo(vector + direction.Normalize(), cell, throught)/*)*/;
+        return /*Logger.debug.endFunc("Extract",*/ new ChessVector[] { }/*)*/;
     }
     public ChessVector[] rayTo(ChessVector from, ChessVector to, int throught)
     {
-        Logger.debug.startFunc("rayTo", $"f = {from}, t = {to}, th = {throught}");
+        /*Logger.debug.startFunc("rayTo", $"f = {from}, t = {to}, th = {throught}")*/;
         for (; from != to && from.isValid() && (!Mover.Contains(from) || throught != 0); from += direction.Normalize())
             if(Mover.Contains(from))
                 throught--;
         if (from == to)
-            return Logger.debug.endFunc("rayTo", new ChessVector[] { from });
+            return /*Logger.debug.endFunc("rayTo",*/ new ChessVector[] { from }/*)*/;
         else
-            return Logger.debug.endFunc("rayTo", new ChessVector[] { });
+            return /*Logger.debug.endFunc("rayTo",*/ new ChessVector[] { }/*)*/;
     }
     public override string ToString()
     {
@@ -505,7 +505,7 @@ class ToRay : Moves
     public ToRay(float x, float y, MoveType type, int Through) : base(x, y, type, Through) { }
     public override ChessVector[] Extract(ChessVector vector)
     {
-        Logger.debug.startFunc("Extract", $"v = {vector}");
+        /*Logger.debug.startFunc("Extract", $"v = {vector}")*/;
         int throught = this.throught;
         List<ChessVector> vectors = new List<ChessVector>();
         ChessVector start = vector + new float[] {x, y};
@@ -536,7 +536,7 @@ class ToRay : Moves
         }
         if (start.isValid() && type == MoveType.bm)
             vectors.Add(start);
-        return Logger.debug.endFunc("Extract", vectors.ToArray());
+        return /*Logger.debug.endFunc("Extract",*/ vectors.ToArray()/*)*/;
     }
     public override string ToString()
     {

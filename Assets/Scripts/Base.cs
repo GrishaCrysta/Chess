@@ -236,28 +236,28 @@ abstract class Figure
     }
     public static void Destroy(ChessVector vector)
     {
-        Logger.debug.startFunc("Destroy", $"v = {vector}");
+        /*Logger.debug.startFunc("Destroy", $"v = {vector}")*/;
         Figure figure = GetFigure(vector);
         if (figure == null)
         {
-            Logger.debug.endFunc("Destroy");
+            /*Logger.debug.endFunc("Destroy")*/;
             return;
         }
         DelFigure(vector);
         GameObject.Destroy(figure.figure);
         if(vector == selected)
             OnSelect = (sender, e) => { };
-        Logger.debug.endFunc("Destroy");
+        /*Logger.debug.endFunc("Destroy")*/;
     }
     public virtual ChessVector[] canBeat()
     {
-        Logger.debug.startFunc("Figure.canBeat", $"f = {coords}");
-        return Logger.debug.endFunc("Figure.canBeat", mover.canMove());
+        /*Logger.debug.startFunc("Figure.canBeat", $"f = {coords}")*/;
+        return /*Logger.debug.endFunc("Figure.canBeat",*/ mover.canMove()/*)*/;
     }
     public virtual bool canBeat(ChessVector vector, bool isForDefended = true)
     {
-        Logger.debug.startFunc("Figure.canBeat", $"v = {vector}, iD = {isForDefended}");
-        return Logger.debug.endFunc("Figure.canBeat", mover.canBeat(vector, isForDefended));
+        /*Logger.debug.startFunc("Figure.canBeat", $"v = {vector}, iD = {isForDefended}")*/;
+        return /*Logger.debug.endFunc("Figure.canBeat",*/ mover.canBeat(vector, isForDefended)/*)*/;
     }
     /*public static ChessVector[] kingDefenders(color color)
     {
@@ -289,29 +289,29 @@ abstract class Figure
     }*/
     public static void setKingDef(ChessVector vector, Moves saveKingMoves, bool isDef = true)
     {
-        Logger.debug.startFunc("setKingDef", $"v = {vector}, m = {saveKingMoves}, iD = {isDef}");
+        /*Logger.debug.startFunc("setKingDef", $"v = {vector}, m = {saveKingMoves}, iD = {isDef}")*/;
         chessBoard[vector.x - 1, vector.y - 1].mover.isKingDefender = isDef;
         if(isDef)
             saveKingMoves.direction = saveKingMoves.direction.Negate();
         chessBoard[vector.x - 1, vector.y - 1].mover.saveKingMoves = saveKingMoves;
         Debug.Log($"{GetFigure(vector).figure.name} {GetFigure(vector).mover.isKingDefender} {isDef}");
-        Logger.debug.endFunc("setKingDef");
+        /*Logger.debug.endFunc("setKingDef")*/;
     }
 
 
 
     public bool canWalk()
     {
-        Logger.debug.startFunc("Figure.canBeBeaten", $"v = {coords}");
-        return Logger.debug.endFunc("Figure.canBeBeaten", canBeat().Length > 0);
+        /*Logger.debug.startFunc("Figure.canBeBeaten", $"v = {coords}")*/;
+        return /*Logger.debug.endFunc("Figure.canBeBeaten",*/ canBeat().Length > 0/*)*/;
     }
     public static bool canBeBeaten(ChessVector vector, color color)
     {
-        Logger.debug.startFunc("Figure.canBeBeaten", $"v = {vector}, col = {color}");
+        /*Logger.debug.startFunc("Figure.canBeBeaten", $"v = {vector}, col = {color}")*/;
         if (vector == null)
-            return Logger.debug.endFunc("Figure.canBeBeaten", true);
+            return /*Logger.debug.endFunc("Figure.canBeBeaten",*/ true/*)*/;
         if (!vector.isValid())
-            return Logger.debug.endFunc("Figure.canBeBeaten", true);
+            return /*Logger.debug.endFunc("Figure.canBeBeaten",*/ true/*)*/;
         /*
                       
         List<Figure> beaters = new List<Figure>();
@@ -376,12 +376,12 @@ abstract class Figure
                     return true;
 
         return false;*/
-        return Logger.debug.endFunc("Figure.canBeBeaten", Mover.canBeBeaten(vector, color));
+        return /*Logger.debug.endFunc("Figure.canBeBeaten",*/ Mover.canBeBeaten(vector, color)/*)*/;
     }
 
     public static bool isStalemate(color color)
     {
-        Logger.debug.startFunc("isStalemate", $"col = {color}");
+        /*Logger.debug.startFunc("isStalemate", $"col = {color}")*/;
         List<ChessVector> figures = new List<ChessVector>(),
                           clone = new List<ChessVector>();
 
@@ -393,12 +393,12 @@ abstract class Figure
                 figures.Remove(i);
 
         if (figures.Count == 0)
-            return Logger.debug.endFunc("isStalemate", true);
+            return /*Logger.debug.endFunc("isStalemate",*/ true/*)*/;
         else 
             if(white.Count == 1 && black.Count == 1)
-                return Logger.debug.endFunc("isStalemate", true);
+                return /*Logger.debug.endFunc("isStalemate",*/ true/*)*/;
             else 
-                return Logger.debug.endFunc("isStalemate", false);
+                return /*Logger.debug.endFunc("isStalemate",*/ false/*)*/;
     }
     /*public static Figure[] potentialBeaters(ChessVector vector, color color)
     {
@@ -456,17 +456,17 @@ abstract class Figure
     }*/
     public static bool isThatEnemy(ChessVector vector, color color)
     {
-        Logger.debug.startFunc("isThatEnemy", $"v = {vector}, col = {color}");
+        /*Logger.debug.startFunc("isThatEnemy", $"v = {vector}, col = {color}")*/;
         Figure figure = GetFigure(vector);
-        if (figure == null) return Logger.debug.endFunc("isThatEnemy", true);
-        if (figure.color != color) return Logger.debug.endFunc("isThatEnemy", true);
-        else return Logger.debug.endFunc("isThatEnemy", false);
+        if (figure == null) return /*Logger.debug.endFunc("isThatEnemy",*/ true/*)*/;
+        if (figure.color != color) return /*Logger.debug.endFunc("isThatEnemy",*/ true/*)*/;
+        else return /*Logger.debug.endFunc("isThatEnemy",*/ false/*)*/;
     }
     virtual public void move(ChessVector vector)
     {
         OnSelect(GetFigure(vector), EventArgs.Empty);
         OnSelect = (sender, e) => { };
-        Logger.debug.startFunc("move", $"v = {vector}");
+        /*Logger.debug.startFunc("move", $"v = {vector}")*/;
 
         Destroy(vector);
         ChessVector temp = coords;
@@ -496,11 +496,11 @@ abstract class Figure
             //stalemale
         }
         camera.transform.Rotate(new Vector3(0, 0, 180));
-        Logger.debug.endFunc("move");
+        /*Logger.debug.endFunc("move")*/;
     }
     public static void select(ChessVector vector)
     {
-        Logger.debug.startFunc("select", $"v = {vector}");
+        /*Logger.debug.startFunc("select", $"v = {vector}")*/;
         OnSelect(GetFigure(vector), EventArgs.Empty);
         OnSelect = (sender, e) => { };
 
@@ -538,7 +538,7 @@ abstract class Figure
             OnSelect += moveSpheres[counter].GetComponent<ForMovePads>().delete;
             moveSpheres[counter].transform.parent = parent.transform;
         }
-        Logger.debug.endFunc("select");
+        /*Logger.debug.endFunc("select")*/;
     }
     public static EventHandler OnSelect = (sender, e) => { };
     public GameObject figure;
@@ -549,18 +549,18 @@ abstract class Figure
 
     public static Figure GetFigure(ChessVector vector)
     {
-        Logger.debug.startFunc("GetFigure", $"v = {vector}");
+        /*Logger.debug.startFunc("GetFigure", $"v = {vector}")*/;
         if (vector.isValid() && chessBoard[vector.x - 1, vector.y - 1] != null)
-            return Logger.debug.endFunc("GetFigure", chessBoard[vector.x - 1, vector.y - 1]);
+            return /*Logger.debug.endFunc("GetFigure",*/ chessBoard[vector.x - 1, vector.y - 1]/*)*/;
         else
         {
-            Logger.debug.endFunc("GetFigure", "null");
+            /*Logger.debug.endFunc("GetFigure", "null" )*/;
             return null;
         }
     }
     public static void SetFigure(Figure figure)
     {
-        Logger.debug.startFunc("SetFigure", $"f = {figure}");
+        /*Logger.debug.startFunc("SetFigure", $"f = {figure}")*/;
         if (!figure.coords.isValid())
             return;
         Destroy(figure.coords);
@@ -571,11 +571,11 @@ abstract class Figure
             black.Add(figure.coords);
         figures.Add(figure.coords);
         Mover.SetColor(figure.coords, figure.color);
-        Logger.debug.endFunc("SetFigure");
+        /*Logger.debug.endFunc("SetFigure")*/;
     }
     public static void SetFigure(int configIndex, ChessVector vector, color color)
     {
-        Logger.debug.startFunc("SetFigure", $"c = {configIndex}, v = {vector}, col = {color}");
+        /*Logger.debug.startFunc("SetFigure", $"c = {configIndex}, v = {vector}, col = {color}")*/;
         switch (configIndex)
         {
             case 0:
@@ -600,11 +600,11 @@ abstract class Figure
                 Figure.Destroy(vector);
                 break;
         }
-        Logger.debug.endFunc("SetFigure");
+        /*Logger.debug.endFunc("SetFigure")*/;
     }
     public static void DelFigure(ChessVector coords)
     {
-        Logger.debug.startFunc("DelFigure", $"c = {coords}");
+        /*Logger.debug.startFunc("DelFigure", $"c = {coords}")*/;
         if (GetFigure(coords).color == color.white)
             white.Remove(coords);
         else
@@ -612,11 +612,11 @@ abstract class Figure
         figures.Remove(coords);
         chessBoard[coords.x - 1, coords.y - 1] = null;
         Mover.SetColor(coords, null);
-        Logger.debug.endFunc("DelFigure");
+        /*Logger.debug.endFunc("DelFigure")*/;
     }
     public static void startGame()
     {
-        Logger.debug.startFunc("startGame");
+        /*Logger.debug.startFunc("startGame")*/;
         makeChessboard();
         clearChessboard();
         
@@ -641,11 +641,11 @@ abstract class Figure
         SetFigure(new King(new ChessVector(5, 8), color.black));
         for (int i = 1; i <= 8; i++)
             SetFigure(new Pawn(new ChessVector(i, 7), color.black));
-        Logger.debug.endFunc("startGame");
+        /*Logger.debug.endFunc("startGame")*/;
     }
     public static void finishGame(string text)
     {
-        Logger.debug.startFunc("finishGame");
+        /*Logger.debug.startFunc("finishGame")*/;
         GameObject textMesh = GameObject.Instantiate(Resources.Load<GameObject>("Models/New game")),
                    button = GameObject.Instantiate(Resources.Load<GameObject>("Models/Button")),
                    canvas = GameObject.Find("Canvas");
@@ -654,11 +654,11 @@ abstract class Figure
         TextMeshProUGUI finishText = textMesh.GetComponent<TextMeshProUGUI>();
         finishText.text = text;
         button.GetComponent<Button>().onClick.AddListener(canvas.GetComponent<Butto>().DeleteChild);
-        Logger.debug.endFunc("finishGame");
+        /*Logger.debug.endFunc("finishGame")*/;
     }
     private static void clearChessboard()
     {
-        Logger.debug.startFunc("clearChessboard");
+        /*Logger.debug.startFunc("clearChessboard")*/;
         Mover.ClearDesk();
         for (int i = 1; i <= 8; i++)
         {
@@ -667,11 +667,11 @@ abstract class Figure
                 Destroy(new ChessVector(i, j));
             }
         }
-        Logger.debug.endFunc("clearChessboard");
+        /*Logger.debug.endFunc("clearChessboard")*/;
     }
     private static void makeChessboard()
     {
-        Logger.debug.startFunc("makeChessboard");
+        /*Logger.debug.startFunc("makeChessboard")*/;
         GameObject parent = GameObject.Find("Chessboard");
         generateOnChessUI();
         Material[] materials = { Resources.Load<Material>("Materials/MeshMaterial1"),
@@ -718,7 +718,7 @@ abstract class Figure
                 };
             }
         }
-        Logger.debug.endFunc("makeChessboard");
+        /*Logger.debug.endFunc("makeChessboard")*/;
         /*
         for (int i = 8; i >= 1; i--)
         {
@@ -747,13 +747,13 @@ abstract class Figure
     }
     public static void generateOnChessUI()
     {
-        Logger.debug.startFunc("generateOnChessUI");
+        /*Logger.debug.startFunc("generateOnChessUI")*/;
         generateBuilder();
-        Logger.debug.endFunc("generateOnChessUI");
+        /*Logger.debug.endFunc("generateOnChessUI")*/;
     }
     public static void generateBuilder()
     {
-        Logger.debug.startFunc("generateBuilder");
+        /*Logger.debug.startFunc("generateBuilder")*/;
         GameObject parent = GameObject.CreatePrimitive(PrimitiveType.Cube);
         parent.GetComponent<Renderer>().material = materials[3];
         parent.transform.SetParent(camera.transform.GetChild(0));
@@ -820,7 +820,7 @@ abstract class Figure
 
         button.GetComponent<OnChessUI>().OnMouseDown();
         FigureMaker.SetColor("white");
-        Logger.debug.endFunc("generateBuilder");
+        /*Logger.debug.endFunc("generateBuilder")*/;
     }
     public override string ToString()
     {
@@ -842,7 +842,7 @@ public class Base : MonoBehaviour
 {
     void Start()
     {
-        Logger.debug.startFunc("Base.Start");
+        /*Logger.debug.startFunc("Base.Start")*/;
         Figure.models[0] = GameObject.CreatePrimitive(PrimitiveType.Cube);
         Figure.models[0].transform.localScale = new Vector3(Config.size, Config.size, Config.size);
         Figure.models[1] = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
@@ -862,7 +862,7 @@ public class Base : MonoBehaviour
             model.SetActive(false);
         Console.WriteLine("lorem");
         Figure.startGame();
-        Logger.debug.endFunc("Base.Start finish");
+        /*Logger.debug.endFunc("Base.Start finish")*/;
         /*
         if (i)
             Debug.Log(i);

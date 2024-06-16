@@ -27,9 +27,9 @@ public class ForMovePads : MonoBehaviour
     */
     private void OnMouseDown()
     {
-        Logger.debug.startFunc("ForMovePads.OnMouseDown");
+        /*Logger.debug.startFunc("ForMovePads.OnMouseDown")*/;
         if (isMove)
             Figure.GetFigure(Figure.selected).move(ChessVector.GetCoordinatesFromVector(gameObject.transform.position));
-        Logger.debug.endFunc("ForMovePads.OnMouseDown");
+        /*Logger.debug.endFunc("ForMovePads.OnMouseDown")*/;
     }
 }

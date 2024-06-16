@@ -7,7 +7,7 @@ using UnityEngine;
 public class Logger
 {
     public static string logDir = @"\myLogs\";
-    public static Logger debug = new("debug");
+    //public static Logger debug = new("debug");
     public static Logger ui = new("ui");
     private int funcNum = 0;
     public string path;
