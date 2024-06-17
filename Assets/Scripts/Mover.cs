@@ -289,7 +289,7 @@ class Mover
         }
         catch (IndexOutOfRangeException)
         {
-            /*Logger.debug.endFunc("Mover.GetColor",*/ "null"/*)*/;
+            /*Logger.debug.endFunc("Mover.GetColor", "null");*/;
             return null;
         }
     }
